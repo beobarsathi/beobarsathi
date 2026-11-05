@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>कार्यालय खण्ड शिक्षा अधिकारी, बरसठी (जौनपुर)</title>
+  <title>कार्यालय खण्ड शिक्षा अधिकारी, विकास खण्ड - बरसठी, जौनपुर</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background: #f4f7f6; font-family: sans-serif; }
@@ -24,16 +24,16 @@
   <div id="loginSection" class="row justify-content-center">
     <div class="col-md-5 mb-3">
       <div class="card p-4">
-        <h5 class="text-primary mb-3">शिक्षक लॉगिन / पंजीकरण</h5>
+        <h5 class="text-primary mb-3">शिक्षक लॉगिन / संशोधन (EHRMS)</h5>
         <div class="mb-3">
           <label class="form-label">मानव संपदा कोड (EHRMS Code)</label>
-          <input type="text" id="tEhrms" class="form-control" placeholder="अपना EHRMS कोड दर्ज करें">
+          <input type="text" id="tEhrms" class="form-control" placeholder="अपना मानव संपदा कोड दर्ज करें">
         </div>
         <div class="mb-3">
           <label class="form-label">मोबाइल नंबर</label>
           <input type="tel" id="tMobile" class="form-control" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
         </div>
-        <button class="btn btn-primary w-100" onclick="teacherLogin()">लॉगिन / विवरण भरें</button>
+        <button class="btn btn-primary w-100" onclick="teacherLogin()">लॉगिन / विवरण भरें या सुधारें</button>
       </div>
     </div>
 
@@ -56,13 +56,13 @@
   <!-- शिक्षक फॉर्म सेक्शन -->
   <div id="teacherSection" class="card p-4 d-none">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="text-success mb-0">शिक्षक विवरण फॉर्म</h5>
+      <h5 class="text-success mb-0">शिक्षक विवरण फॉर्म / संशोधन प्रपत्र</h5>
       <button class="btn btn-sm btn-secondary" onclick="logout()">लॉगआउट</button>
     </div>
     <div class="row g-3">
       <div class="col-md-4">
-        <label class="form-label">मानव संपदा कोड</label>
-        <input type="text" id="fEhrms" class="form-control" readonly>
+        <label class="form-label">मानव संपदा कोड (EHRMS)</label>
+        <input type="text" id="fEhrms" class="form-control bg-light" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">शिक्षक का नाम</label>
@@ -82,8 +82,8 @@
         <input type="text" id="fSchool" class="form-control" required>
       </div>
       <div class="col-md-4">
-        <label class="form-label">न्याय पंचायत</label>
-        <select id="fNyay" class="form-select">
+        <label class="form-label">न्याय पंचायत चुनें (11 न्याय पंचायत)</label>
+        <select id="fNyay" class="form-select" required>
           <option value="">-- न्याय पंचायत चुनें --</option>
           <option value="पपरावन">पपरावन</option>
           <option value="बरसठी">बरसठी</option>
@@ -103,14 +103,14 @@
         <input type="tel" id="fMobile" class="form-control" maxlength="10">
       </div>
       <div class="col-md-6">
-        <label class="form-label">फोटो अपलोड करें</label>
+        <label class="form-label">फोटो अपलोड करें (वैकल्पिक)</label>
         <input type="file" id="fPhoto" class="form-control" accept="image/*" onchange="previewImage(event)">
       </div>
       <div class="col-md-6 d-flex align-items-center">
         <img id="photoPreview" class="photo-thumb d-none" alt="Photo">
       </div>
       <div class="col-12 mt-3">
-        <button class="btn btn-success" onclick="saveTeacherData()">डेटा सुरक्षित (Save) करें</button>
+        <button class="btn btn-success" onclick="saveTeacherData()">डेटा सुरक्षित / अपडेट (Save/Update) करें</button>
       </div>
     </div>
   </div>
@@ -147,7 +147,7 @@
         <thead class="table-dark">
           <tr>
             <th>फोटो</th>
-            <th>EHRMS</th>
+            <th>EHRMS Code</th>
             <th>नाम</th>
             <th>पद</th>
             <th>विद्यालय</th>
@@ -163,12 +163,13 @@
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
-  // आपका Firebase Config कोड
+  // Firebase Config (बेसबॉल / डेटाबेस कनेक्शन)
   const firebaseConfig = {
     apiKey: "AIzaSyDGBjXPrgc54cV9LN0_6HftiibazVzm1bc",
     authDomain: "beobarsathiportal2026.firebaseapp.com",
+    databaseURL: "https://beobarsathiportal2026-default-rtdb.firebaseio.com",
     projectId: "beobarsathiportal2026",
     storageBucket: "beobarsathiportal2026.firebasestorage.app",
     messagingSenderId: "847125364219",
@@ -177,7 +178,7 @@
   };
 
   firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+  const db = firebase.database();
   let currentPhotoBase64 = "";
   let cachedRecords = [];
 
@@ -206,19 +207,23 @@
   }
 
   async function teacherLogin() {
-    const ehrms = document.getElementById('tEhrms').value.trim();
+    let ehrms = document.getElementById('tEhrms').value.trim();
     const mobile = document.getElementById('tMobile').value.trim();
+    
     if (!ehrms || mobile.length !== 10) {
-      alert("कृपया सही मानव संपदा कोड और 10 अंकों का मोबाइल नंबर दर्ज करें।");
+      alert("कृपया सही मानव संपदा कोड (EHRMS Code) और 10 अंकों का मोबाइल नंबर दर्ज करें।");
       return;
     }
+    
+    // स्पेशल कैरेक्टर या डॉट हटाने के लिए सुरक्षित की (Key) बनाना
+    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
     document.getElementById('fEhrms').value = ehrms;
     document.getElementById('fMobile').value = mobile;
 
     try {
-      const doc = await db.collection("teachers").doc(ehrms).get();
-      if (doc.exists) {
-        const d = doc.data();
+      const snapshot = await db.ref('teachers/' + safeKey).once('value');
+      if (snapshot.exists()) {
+        const d = snapshot.val();
         document.getElementById('fName').value = d.name || "";
         document.getElementById('fPost').value = d.post || "सहायक अध्यापक";
         document.getElementById('fSchool').value = d.school || "";
@@ -230,16 +235,17 @@
           preview.src = d.photo;
           preview.classList.remove('d-none');
         }
+        alert("आपका पूर्व में भरा हुआ डेटा लोड कर दिया गया है। आप इसमें सुधार (Correction) करके दोबारा सेव कर सकते हैं।");
       }
       document.getElementById('loginSection').classList.add('d-none');
       document.getElementById('teacherSection').classList.remove('d-none');
     } catch (err) {
-      alert("डेटाबेस कनेक्शन त्रुटि: कृपया सुनिश्चित करें कि Firestore Database चालू है।");
+      alert("डेटाबेस कनेक्शन त्रुटि: " + err.message);
     }
   }
 
   async function saveTeacherData() {
-    const ehrms = document.getElementById('fEhrms').value.trim();
+    let ehrms = document.getElementById('fEhrms').value.trim();
     const name = document.getElementById('fName').value.trim();
     const post = document.getElementById('fPost').value;
     const school = document.getElementById('fSchool').value.trim();
@@ -251,13 +257,20 @@
       return;
     }
 
+    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
+
     try {
-      await db.collection("teachers").doc(ehrms).set({
-        ehrms, name, post, school, nyay, mobile,
+      await db.ref('teachers/' + safeKey).set({
+        ehrms: ehrms,
+        name: name,
+        post: post,
+        school: school,
+        nyay: nyay,
+        mobile: mobile,
         photo: currentPhotoBase64,
         updatedAt: new Date().toLocaleString()
       });
-      alert("आपका विवरण सफलतापूर्वक सुरक्षित हो गया है!");
+      alert("आपका विवरण सफलतापूर्वक सुरक्षित / अपडेट हो गया है!");
     } catch (e) {
       alert("डेटा सेव करने में समस्या आई: " + e.message);
     }
@@ -279,32 +292,36 @@
     const filter = document.getElementById('filterNyay').value;
     const tbody = document.getElementById('adminTableBody');
     tbody.innerHTML = "<tr><td colspan='8' class='text-center'>डेटा लोड हो रहा है...</td></tr>";
+    
     try {
-      const snap = await db.collection("teachers").get();
+      const snapshot = await db.ref('teachers').once('value');
       cachedRecords = [];
       tbody.innerHTML = "";
-      snap.forEach(doc => {
-        const d = doc.data();
-        if (!filter || d.nyay === filter) {
-          cachedRecords.push(d);
-          const imgHtml = d.photo ? `<img src="${d.photo}" class="photo-thumb">` : "No Photo";
-          tbody.innerHTML += `
-            <tr>
-              <td>${imgHtml}</td>
-              <td>${d.ehrms}</td>
-              <td>${d.name}</td>
-              <td>${d.post}</td>
-              <td>${d.school}</td>
-              <td>${d.nyay}</td>
-              <td>${d.mobile}</td>
-              <td>
-                <button class="btn btn-sm btn-warning mb-1" onclick="editRecord('${d.ehrms}')">Edit</button>
-                <button class="btn btn-sm btn-danger mb-1" onclick="deleteRecord('${d.ehrms}')">Delete</button>
-                <a class="btn btn-sm btn-success mb-1" target="_blank" href="https://wa.me/91${d.mobile}?text=सूचना%20कार्यालय%20BEO%20बरसठी:%20${encodeURIComponent(d.name)}%20जी,%20आपका%20विवरण%20पोर्टल%20पर%20सत्यापित%20किया%20गया।">WhatsApp</a>
-              </td>
-            </tr>`;
-        }
-      });
+      
+      if (snapshot.exists()) {
+        snapshot.forEach(childSnap => {
+          const d = childSnap.val();
+          if (!filter || d.nyay === filter) {
+            cachedRecords.push(d);
+            const imgHtml = d.photo ? `<img src="${d.photo}" class="photo-thumb">` : "No Photo";
+            tbody.innerHTML += `
+              <tr>
+                <td>${imgHtml}</td>
+                <td><b>${d.ehrms}</b></td>
+                <td>${d.name}</td>
+                <td>${d.post}</td>
+                <td>${d.school}</td>
+                <td>${d.nyay}</td>
+                <td>${d.mobile}</td>
+                <td>
+                  <button class="btn btn-sm btn-warning mb-1" onclick="editRecord('${d.ehrms}')">Edit</button>
+                  <button class="btn btn-sm btn-danger mb-1" onclick="deleteRecord('${d.ehrms}')">Delete</button>
+                  <a class="btn btn-sm btn-success mb-1" target="_blank" href="https://wa.me/91${d.mobile}?text=सूचना%20कार्यालय%20BEO%20बरसठी:%20${encodeURIComponent(d.name)}%20जी,%20आपका%20विवरण%20पोर्टल%20पर%20सत्यापित%20किया%20गया।">WhatsApp</a>
+                </td>
+              </tr>`;
+          }
+        });
+      }
       document.getElementById('totalCount').innerText = cachedRecords.length;
     } catch (e) {
       tbody.innerHTML = "<tr><td colspan='8' class='text-danger text-center'>डेटा लोड नहीं हो सका।</td></tr>";
@@ -314,16 +331,18 @@
   async function editRecord(ehrms) {
     document.getElementById('adminSection').classList.add('d-none');
     document.getElementById('tEhrms').value = ehrms;
-    const doc = await db.collection("teachers").doc(ehrms).get();
-    if (doc.exists) {
-      document.getElementById('tMobile').value = doc.data().mobile || "0000000000";
+    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
+    const snapshot = await db.ref('teachers/' + safeKey).once('value');
+    if (snapshot.exists()) {
+      document.getElementById('tMobile').value = snapshot.val().mobile || "0000000000";
       teacherLogin();
     }
   }
 
   async function deleteRecord(ehrms) {
     if (confirm("क्या आप इस शिक्षक का रिकॉर्ड हटाना चाहते हैं?")) {
-      await db.collection("teachers").doc(ehrms).delete();
+      let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
+      await db.ref('teachers/' + safeKey).remove();
       loadAllTeachers();
     }
   }
@@ -346,4 +365,5 @@
   }
 </script>
 </body>
-</html>
+  </html>
+  
