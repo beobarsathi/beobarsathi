@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कार्यालय खण्ड शिक्षा अधिकारी, बरसठी (जौनपुर)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #f4f7f6; font-family: sans-serif; }
+    .header-bar { background: #1e3c72; color: white; padding: 15px; text-align: center; }
+    .card { border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .photo-thumb { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+<div class="header-bar">
+  <h4 class="mb-1">कार्यालय खण्ड शिक्षा अधिकारी, विकास खण्ड - बरसठी, जौनपुर</h4>
+  <small>शिक्षक विवरण एवं डेटा संकलन पोर्टल</small>
+</div>
+
+<div class="container my-4">
+  <!-- लॉगिन सेक्शन -->
+  <div id="loginSection" class="row justify-content-center">
+    <div class="col-md-5 mb-3">
+      <div class="card p-4">
+        <h5 class="text-primary mb-3">शिक्षक लॉगिन / पंजीकरण</h5>
+        <div class="mb-3">
+          <label class="form-label">मानव संपदा कोड (EHRMS Code)</label>
+          <input type="text" id="tEhrms" class="form-control" placeholder="अपना EHRMS कोड दर्ज करें">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">मोबाइल नंबर</label>
+          <input type="tel" id="tMobile" class="form-control" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
+        </div>
+        <button class="btn btn-primary w-100" onclick="teacherLogin()">लॉगिन / विवरण भरें</button>
+      </div>
+    </div>
+
+    <div class="col-md-5 mb-3">
+      <div class="card p-4">
+        <h5 class="text-danger mb-3">BEO एडमिन लॉगिन</h5>
+        <div class="mb-3">
+          <label class="form-label">एडमिन आईडी</label>
+          <input type="text" id="adminUser" class="form-control" placeholder="एडमिन यूजरनेम">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">पासवर्ड</label>
+          <input type="password" id="adminPass" class="form-control" placeholder="पासवर्ड दर्ज करें">
+        </div>
+        <button class="btn btn-danger w-100" onclick="adminLogin()">एडमिन लॉगिन</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- शिक्षक फॉर्म सेक्शन -->
+  <div id="teacherSection" class="card p-4 d-none">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="text-success mb-0">शिक्षक विवरण फॉर्म</h5>
+      <button class="btn btn-sm btn-secondary" onclick="logout()">लॉगआउट</button>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">मानव संपदा कोड</label>
+        <input type="text" id="fEhrms" class="form-control" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">शिक्षक का नाम</label>
+        <input type="text" id="fName" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">पदनाम (Designation)</label>
+        <select id="fPost" class="form-select">
+          <option value="प्रधानाध्यापक">प्रधानाध्यापक</option>
+          <option value="सहायक अध्यापक">सहायक अध्यापक</option>
+          <option value="शिक्षामित्र">शिक्षामित्र</option>
+          <option value="अनुदेशक">अनुदेशक</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">विद्यालय का नाम</label>
+        <input type="text" id="fSchool" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">न्याय पंचायत</label>
+        <select id="fNyay" class="form-select">
+          <option value="">-- न्याय पंचायत चुनें --</option>
+          <option value="पपरावन">पपरावन</option>
+          <option value="बरसठी">बरसठी</option>
+          <option value="भन्नौर">भन्नौर</option>
+          <option value="गोठाव">गोठाव</option>
+          <option value="कांटी">कांटी</option>
+          <option value="दताव">दताव</option>
+          <option value="पल्टूपुर">पल्टूपुर</option>
+          <option value="वाजिदपुर">वाजिदपुर</option>
+          <option value="हरद्वारी">हरद्वारी</option>
+          <option value="परियत">परियत</option>
+          <option value="भदराव">भदराव</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">मोबाइल नंबर</label>
+        <input type="tel" id="fMobile" class="form-control" maxlength="10">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">फोटो अपलोड करें</label>
+        <input type="file" id="fPhoto" class="form-control" accept="image/*" onchange="previewImage(event)">
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <img id="photoPreview" class="photo-thumb d-none" alt="Photo">
+      </div>
+      <div class="col-12 mt-3">
+        <button class="btn btn-success" onclick="saveTeacherData()">डेटा सुरक्षित (Save) करें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEO एडमिन पैनल -->
+  <div id="adminSection" class="card p-4 d-none">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+      <h5 class="text-danger mb-0">BEO एडमिन डैशबोर्ड (कुल रिकॉर्ड: <span id="totalCount">0</span>)</h5>
+      <div>
+        <button class="btn btn-success btn-sm me-2" onclick="exportExcel()">Excel डाउनलोड करें</button>
+        <button class="btn btn-secondary btn-sm" onclick="logout()">लॉगआउट</button>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <select id="filterNyay" class="form-select" onchange="loadAllTeachers()">
+          <option value="">सभी न्याय पंचायत देखें</option>
+          <option value="पपरावन">पपरावन</option>
+          <option value="बरसठी">बरसठी</option>
+          <option value="भन्नौर">भन्नौर</option>
+          <option value="गोठाव">गोठाव</option>
+          <option value="कांटी">कांटी</option>
+          <option value="दताव">दताव</option>
+          <option value="पल्टूपुर">पल्टूपुर</option>
+          <option value="वाजिदपुर">वाजिदपुर</option>
+          <option value="हरद्वारी">हरद्वारी</option>
+          <option value="परियत">परियत</option>
+          <option value="भदराव">भदराव</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>फोटो</th>
+            <th>EHRMS</th>
+            <th>नाम</th>
+            <th>पद</th>
+            <th>विद्यालय</th>
+            <th>न्याय पंचायत</th>
+            <th>मोबाइल</th>
+            <th>कार्यवाही</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+  // आपका Firebase Config कोड
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGBjXPrgc54cV9LN0_6HftiibazVzm1bc",
+    authDomain: "beobarsathiportal2026.firebaseapp.com",
+    projectId: "beobarsathiportal2026",
+    storageBucket: "beobarsathiportal2026.firebasestorage.app",
+    messagingSenderId: "847125364219",
+    appId: "1:847125364219:web:e8419620604981f5259f5e",
+    measurementId: "G-4MGPQQC2QC"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  let currentPhotoBase64 = "";
+  let cachedRecords = [];
+
+  function previewImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const MAX_SIZE = 200;
+        let w = img.width, h = img.height;
+        if (w > h) { if (w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } }
+        else { if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; } }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        const preview = document.getElementById('photoPreview');
+        preview.src = currentPhotoBase64;
+        preview.classList.remove('d-none');
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function teacherLogin() {
+    const ehrms = document.getElementById('tEhrms').value.trim();
+    const mobile = document.getElementById('tMobile').value.trim();
+    if (!ehrms || mobile.length !== 10) {
+      alert("कृपया सही मानव संपदा कोड और 10 अंकों का मोबाइल नंबर दर्ज करें।");
+      return;
+    }
+    document.getElementById('fEhrms').value = ehrms;
+    document.getElementById('fMobile').value = mobile;
+
+    try {
+      const doc = await db.collection("teachers").doc(ehrms).get();
+      if (doc.exists) {
+        const d = doc.data();
+        document.getElementById('fName').value = d.name || "";
+        document.getElementById('fPost').value = d.post || "सहायक अध्यापक";
+        document.getElementById('fSchool').value = d.school || "";
+        document.getElementById('fNyay').value = d.nyay || "";
+        document.getElementById('fMobile').value = d.mobile || mobile;
+        if (d.photo) {
+          currentPhotoBase64 = d.photo;
+          const preview = document.getElementById('photoPreview');
+          preview.src = d.photo;
+          preview.classList.remove('d-none');
+        }
+      }
+      document.getElementById('loginSection').classList.add('d-none');
+      document.getElementById('teacherSection').classList.remove('d-none');
+    } catch (err) {
+      alert("डेटाबेस कनेक्शन त्रुटि: कृपया सुनिश्चित करें कि Firestore Database चालू है।");
+    }
+  }
+
+  async function saveTeacherData() {
+    const ehrms = document.getElementById('fEhrms').value.trim();
+    const name = document.getElementById('fName').value.trim();
+    const post = document.getElementById('fPost').value;
+    const school = document.getElementById('fSchool').value.trim();
+    const nyay = document.getElementById('fNyay').value;
+    const mobile = document.getElementById('fMobile').value.trim();
+
+    if (!name || !school || !nyay) {
+      alert("कृपया नाम, विद्यालय और न्याय पंचायत अवश्य भरें।");
+      return;
+    }
+
+    try {
+      await db.collection("teachers").doc(ehrms).set({
+        ehrms, name, post, school, nyay, mobile,
+        photo: currentPhotoBase64,
+        updatedAt: new Date().toLocaleString()
+      });
+      alert("आपका विवरण सफलतापूर्वक सुरक्षित हो गया है!");
+    } catch (e) {
+      alert("डेटा सेव करने में समस्या आई: " + e.message);
+    }
+  }
+
+  function adminLogin() {
+    const u = document.getElementById('adminUser').value.trim();
+    const p = document.getElementById('adminPass').value.trim();
+    if (u === "beobarsathi" && p === "Barsathi@2026") {
+      document.getElementById('loginSection').classList.add('d-none');
+      document.getElementById('adminSection').classList.remove('d-none');
+      loadAllTeachers();
+    } else {
+      alert("गलत एडमिन आईडी या पासवर्ड!");
+    }
+  }
+
+  async function loadAllTeachers() {
+    const filter = document.getElementById('filterNyay').value;
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = "<tr><td colspan='8' class='text-center'>डेटा लोड हो रहा है...</td></tr>";
+    try {
+      const snap = await db.collection("teachers").get();
+      cachedRecords = [];
+      tbody.innerHTML = "";
+      snap.forEach(doc => {
+        const d = doc.data();
+        if (!filter || d.nyay === filter) {
+          cachedRecords.push(d);
+          const imgHtml = d.photo ? `<img src="${d.photo}" class="photo-thumb">` : "No Photo";
+          tbody.innerHTML += `
+            <tr>
+              <td>${imgHtml}</td>
+              <td>${d.ehrms}</td>
+              <td>${d.name}</td>
+              <td>${d.post}</td>
+              <td>${d.school}</td>
+              <td>${d.nyay}</td>
+              <td>${d.mobile}</td>
+              <td>
+                <button class="btn btn-sm btn-warning mb-1" onclick="editRecord('${d.ehrms}')">Edit</button>
+                <button class="btn btn-sm btn-danger mb-1" onclick="deleteRecord('${d.ehrms}')">Delete</button>
+                <a class="btn btn-sm btn-success mb-1" target="_blank" href="https://wa.me/91${d.mobile}?text=सूचना%20कार्यालय%20BEO%20बरसठी:%20${encodeURIComponent(d.name)}%20जी,%20आपका%20विवरण%20पोर्टल%20पर%20सत्यापित%20किया%20गया।">WhatsApp</a>
+              </td>
+            </tr>`;
+        }
+      });
+      document.getElementById('totalCount').innerText = cachedRecords.length;
+    } catch (e) {
+      tbody.innerHTML = "<tr><td colspan='8' class='text-danger text-center'>डेटा लोड नहीं हो सका।</td></tr>";
+    }
+  }
+
+  async function editRecord(ehrms) {
+    document.getElementById('adminSection').classList.add('d-none');
+    document.getElementById('tEhrms').value = ehrms;
+    const doc = await db.collection("teachers").doc(ehrms).get();
+    if (doc.exists) {
+      document.getElementById('tMobile').value = doc.data().mobile || "0000000000";
+      teacherLogin();
+    }
+  }
+
+  async function deleteRecord(ehrms) {
+    if (confirm("क्या आप इस शिक्षक का रिकॉर्ड हटाना चाहते हैं?")) {
+      await db.collection("teachers").doc(ehrms).delete();
+      loadAllTeachers();
+    }
+  }
+
+  function exportExcel() {
+    if (cachedRecords.length === 0) { alert("डाउनलोड करने के लिए कोई डेटा नहीं है।"); return; }
+    let csv = "\uFEFFEHRMS Code,Name,Designation,School,Nyaya Panchayat,Mobile,Updated At\n";
+    cachedRecords.forEach(r => {
+      csv += `"${r.ehrms}","${r.name}","${r.post}","${r.school}","${r.nyay}","${r.mobile}","${r.updatedAt || ''}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "BEO_Barsathi_Teachers_Data.csv";
+    link.click();
+  }
+
+  function logout() {
+    location.reload();
+  }
+</script>
+</body>
+</html>
