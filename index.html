@@ -1,366 +1,379 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>कार्यालय खण्ड शिक्षा अधिकारी, विकास खण्ड - बरसठी, जौनपुर</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background: #f4f7f6; font-family: sans-serif; }
-    .header-bar { background: #1e3c72; color: white; padding: 15px; text-align: center; }
-    .card { border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-    .photo-thumb { width: 55px; height: 55px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; }
-  </style>
-</head>
-<body>
-
-<div class="header-bar">
-  <h4 class="mb-1">कार्यालय खण्ड शिक्षा अधिकारी, विकास खण्ड - बरसठी, जौनपुर</h4>
-  <small>शिक्षक विवरण एवं डेटा संकलन पोर्टल</small>
-</div>
-
-<div class="container my-4">
-  <!-- लॉगिन सेक्शन -->
-  <div id="loginSection" class="row justify-content-center">
-    <div class="col-md-5 mb-3">
-      <div class="card p-4">
-        <h5 class="text-primary mb-3">शिक्षक लॉगिन / संशोधन (EHRMS)</h5>
-        <div class="mb-3">
-          <label class="form-label">मानव संपदा कोड (EHRMS Code)</label>
-          <input type="text" id="tEhrms" class="form-control" placeholder="अपना मानव संपदा कोड दर्ज करें">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">मोबाइल नंबर</label>
-          <input type="tel" id="tMobile" class="form-control" maxlength="10" placeholder="10 अंकों का मोबाइल नंबर">
-        </div>
-        <button class="btn btn-primary w-100" onclick="teacherLogin()">लॉगिन / विवरण भरें या सुधारें</button>
-      </div>
-    </div>
-
-    <div class="col-md-5 mb-3">
-      <div class="card p-4">
-        <h5 class="text-danger mb-3">BEO एडमिन लॉगिन</h5>
-        <div class="mb-3">
-          <label class="form-label">एडमिन आईडी</label>
-          <input type="text" id="adminUser" class="form-control" placeholder="एडमिन यूजरनेम">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">पासवर्ड</label>
-          <input type="password" id="adminPass" class="form-control" placeholder="पासवर्ड दर्ज करें">
-        </div>
-        <button class="btn btn-danger w-100" onclick="adminLogin()">एडमिन लॉगिन</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- शिक्षक फॉर्म सेक्शन -->
-  <div id="teacherSection" class="card p-4 d-none">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="text-success mb-0">शिक्षक विवरण फॉर्म / संशोधन प्रपत्र</h5>
-      <button class="btn btn-sm btn-secondary" onclick="logout()">लॉगआउट</button>
-    </div>
-    <div class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label">मानव संपदा कोड (EHRMS)</label>
-        <input type="text" id="fEhrms" class="form-control bg-light" readonly>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">शिक्षक का नाम</label>
-        <input type="text" id="fName" class="form-control" required>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">पदनाम (Designation)</label>
-        <select id="fPost" class="form-select">
-          <option value="प्रधानाध्यापक">प्रधानाध्यापक</option>
-          <option value="सहायक अध्यापक">सहायक अध्यापक</option>
-          <option value="शिक्षामित्र">शिक्षामित्र</option>
-          <option value="अनुदेशक">अनुदेशक</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">विद्यालय का नाम</label>
-        <input type="text" id="fSchool" class="form-control" required>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">न्याय पंचायत चुनें (11 न्याय पंचायत)</label>
-        <select id="fNyay" class="form-select" required>
-          <option value="">-- न्याय पंचायत चुनें --</option>
-          <option value="पपरावन">पपरावन</option>
-          <option value="बरसठी">बरसठी</option>
-          <option value="भन्नौर">भन्नौर</option>
-          <option value="गोठाव">गोठाव</option>
-          <option value="कांटी">कांटी</option>
-          <option value="दताव">दताव</option>
-          <option value="पल्टूपुर">पल्टूपुर</option>
-          <option value="वाजिदपुर">वाजिदपुर</option>
-          <option value="हरद्वारी">हरद्वारी</option>
-          <option value="परियत">परियत</option>
-          <option value="भदराव">भदराव</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">मोबाइल नंबर</label>
-        <input type="tel" id="fMobile" class="form-control" maxlength="10">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">फोटो अपलोड करें (वैकल्पिक)</label>
-        <input type="file" id="fPhoto" class="form-control" accept="image/*" onchange="previewImage(event)">
-      </div>
-      <div class="col-md-6 d-flex align-items-center">
-        <img id="photoPreview" class="photo-thumb d-none" alt="Photo">
-      </div>
-      <div class="col-12 mt-3">
-        <button class="btn btn-success" onclick="saveTeacherData()">डेटा सुरक्षित / अपडेट (Save/Update) करें</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BEO एडमिन पैनल -->
-  <div id="adminSection" class="card p-4 d-none">
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-      <h5 class="text-danger mb-0">BEO एडमिन डैशबोर्ड (कुल रिकॉर्ड: <span id="totalCount">0</span>)</h5>
-      <div>
-        <button class="btn btn-success btn-sm me-2" onclick="exportExcel()">Excel डाउनलोड करें</button>
-        <button class="btn btn-secondary btn-sm" onclick="logout()">लॉगआउट</button>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <select id="filterNyay" class="form-select" onchange="loadAllTeachers()">
-          <option value="">सभी न्याय पंचायत देखें</option>
-          <option value="पपरावन">पपरावन</option>
-          <option value="बरसठी">बरसठी</option>
-          <option value="भन्नौर">भन्नौर</option>
-          <option value="गोठाव">गोठाव</option>
-          <option value="कांटी">कांटी</option>
-          <option value="दताव">दताव</option>
-          <option value="पल्टूपुर">पल्टूपुर</option>
-          <option value="वाजिदपुर">वाजिदपुर</option>
-          <option value="हरद्वारी">हरद्वारी</option>
-          <option value="परियत">परियत</option>
-          <option value="भदराव">भदराव</option>
-        </select>
-      </div>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>फोटो</th>
-            <th>EHRMS Code</th>
-            <th>नाम</th>
-            <th>पद</th>
-            <th>विद्यालय</th>
-            <th>न्याय पंचायत</th>
-            <th>मोबाइल</th>
-            <th>कार्यवाही</th>
-          </tr>
-        </thead>
-        <tbody id="adminTableBody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDGBjXPrgc54cV9LN0_6HftiibazVzm1bc",
-    authDomain: "beobarsathiportal2026.firebaseapp.com",
-    databaseURL: "https://beobarsathiportal2026-default-rtdb.firebaseio.com",
-    projectId: "beobarsathiportal2026",
-    storageBucket: "beobarsathiportal2026.firebasestorage.app",
-    messagingSenderId: "847125364219",
-    appId: "1:847125364219:web:e8419620604981f5259f5e",
-    measurementId: "G-4MGPQQC2QC"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  let currentPhotoBase64 = "";
-  let cachedRecords = [];
-
-  function previewImage(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        const canvas = document.createElement('canvas');
-        const MAX_SIZE = 200;
-        let w = img.width, h = img.height;
-        if (w > h) { if (w > MAX_SIZE) { h *= MAX_SIZE / w; w = MAX_SIZE; } }
-        else { if (h > MAX_SIZE) { w *= MAX_SIZE / h; h = MAX_SIZE; } }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        currentPhotoBase64 = canvas.toDataURL('image/jpeg', 0.7);
-        const preview = document.getElementById('photoPreview');
-        preview.src = currentPhotoBase64;
-        preview.classList.remove('d-none');
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  async function teacherLogin() {
-    let ehrms = document.getElementById('tEhrms').value.trim();
-    const mobile = document.getElementById('tMobile').value.trim();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कार्यालय खंड शिक्षा अधिकारी, बरसठी, जौनपुर - सूचना संकलन पोर्टल</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans Devanagari & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    if (!ehrms || mobile.length !== 10) {
-      alert("कृपया सही मानव संपदा कोड (EHRMS Code) और 10 अंकों का मोबाइल नंबर दर्ज करें।");
-      return;
-    }
-    
-    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
-    document.getElementById('fEhrms').value = ehrms;
-    document.getElementById('fMobile').value = mobile;
-
-    try {
-      const snapshot = await db.ref('teachers/' + safeKey).once('value');
-      if (snapshot.exists()) {
-        const d = snapshot.val();
-        document.getElementById('fName').value = d.name || "";
-        document.getElementById('fPost').value = d.post || "सहायक अध्यापक";
-        document.getElementById('fSchool').value = d.school || "";
-        document.getElementById('fNyay').value = d.nyay || "";
-        document.getElementById('fMobile').value = d.mobile || mobile;
-        if (d.photo) {
-          currentPhotoBase64 = d.photo;
-          const preview = document.getElementById('photoPreview');
-          preview.src = d.photo;
-          preview.classList.remove('d-none');
+    <style>
+        body {
+            font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+            background-color: #f1f5f9;
         }
-        alert("आपका पूर्व में भरा हुआ डेटा लोड कर दिया गया है। आप इसमें सुधार (Correction) करके दोबारा सेव कर सकते हैं।");
-      }
-      document.getElementById('loginSection').classList.add('d-none');
-      document.getElementById('teacherSection').classList.remove('d-none');
-    } catch (err) {
-      alert("डेटाबेस कनेक्शन त्रुटि: " + err.message);
-    }
-  }
+        .uppercase-input {
+            text-transform: uppercase;
+        }
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            body { background-color: #ffffff !important; color: #000000 !important; }
+            .no-print { display: none !important; }
+            .print-only { display: flex !important; }
+            table.official-table { width: 100% !important; border-collapse: collapse !important; font-size: 8.5pt !important; }
+            table.official-table th, table.official-table td { border: 1px solid #000000 !important; padding: 4px !important; color: #000000 !important; }
+            table.official-table th { background-color: #f3f4f6 !important; -webkit-print-color-adjust: exact; }
+        }
+        .print-only { display: none; }
+        .table-scroll::-webkit-scrollbar { height: 8px; }
+        .table-scroll::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 4px; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
 
-  async function saveTeacherData() {
-    let ehrms = document.getElementById('fEhrms').value.trim();
-    const name = document.getElementById('fName').value.trim();
-    const post = document.getElementById('fPost').value;
-    const school = document.getElementById('fSchool').value.trim();
-    const nyay = document.getElementById('fNyay').value;
-    const mobile = document.getElementById('fMobile').value.trim();
+    <!-- Top Government Style Strip -->
+    <div class="bg-slate-900 text-amber-400 text-xs py-1.5 px-4 border-b border-amber-500/30 no-print">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-2 font-medium">
+                <i class="fa-solid fa-landmark"></i>
+                <span>बेसिक शिक्षा विभाग, उत्तर प्रदेश शासन | विकास खंड - बरसठी, जनपद - जौनपुर</span>
+            </div>
+            <div class="flex items-center gap-4 text-slate-300">
+                <span id="connectionStatus" class="flex items-center gap-1.5 text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> लाइव सर्वर कनेक्टेड
+                </span>
+            </div>
+        </div>
+    </div>
 
-    if (!name || !school || !nyay) {
-      alert("कृपया नाम, विद्यालय और न्याय पंचायत अवश्य भरें।");
-      return;
-    }
+    <!-- Official Header Banner -->
+    <header class="bg-gradient-to-r from-blue-950 via-indigo-900 to-blue-950 text-white shadow-lg border-b-4 border-amber-500 no-print">
+        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-center md:text-left flex-col sm:flex-row">
+                <div class="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center shrink-0 shadow-inner">
+                    <i class="fa-solid fa-building-columns text-3xl text-amber-400"></i>
+                </div>
+                <div>
+                    <div class="inline-block bg-amber-500 text-slate-950 text-xs font-extrabold px-2.5 py-0.5 rounded mb-1 uppercase tracking-wider">
+                        अति महत्वपूर्ण / समयबद्ध
+                    </div>
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                        कार्यालय खंड शिक्षा अधिकारी, विकास खंड - बरसठी, जनपद - जौनपुर
+                    </h1>
+                    <p class="text-amber-300 font-semibold text-sm sm:text-base mt-0.5">
+                        हाईकोर्ट के आदेश के अनुपालन में शिक्षक सूचना संकलन पोर्टल
+                    </p>
+                </div>
+            </div>
 
-    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
+            <!-- Quick Action Buttons in Header -->
+            <div class="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
+                <button onclick="switchTab('formTab')" id="btnFormTab" class="px-4 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 bg-amber-500 text-slate-950 shadow-md hover:bg-amber-400 transition-all">
+                    <i class="fa-solid fa-id-card-clip"></i> शिक्षक लॉगिन (EHRMS)
+                </button>
+                <button onclick="switchTab('reportTab')" id="btnReportTab" class="px-4 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all">
+                    <i class="fa-solid fa-user-shield"></i> BEO लॉगिन (Admin) (<span id="headerCountBadge">0</span>)
+                </button>
+                <button onclick="logoutBEO()" id="btnLogoutBEO" class="hidden px-3.5 py-2.5 rounded-lg font-bold text-xs flex items-center gap-1.5 bg-red-600 text-white shadow hover:bg-red-700 transition-all">
+                    <i class="fa-solid fa-right-from-bracket"></i> BEO लॉगआउट
+                </button>
+            </div>
+        </div>
+    </header>
 
-    try {
-      await db.ref('teachers/' + safeKey).set({
-        ehrms: ehrms,
-        name: name,
-        post: post,
-        school: school,
-        nyay: nyay,
-        mobile: mobile,
-        photo: currentPhotoBase64,
-        updatedAt: new Date().toLocaleString()
-      });
-      alert("आपका विवरण सफलतापूर्वक सुरक्षित / अपडेट हो गया है!");
-    } catch (e) {
-      alert("डेटा सेव करने में समस्या आई: " + e.message);
-    }
-  }
+    <!-- Mandatory Instruction Alert Strip -->
+    <div class="bg-red-50 border-b border-red-200 py-2.5 px-4 no-print shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-red-900 text-xs sm:text-sm">
+            <div class="flex items-center gap-2 font-bold">
+                <span class="bg-red-600 text-white px-2 py-0.5 rounded text-xs uppercase animate-pulse">आवश्यक निर्देश</span>
+                <span>नोट— समस्त विवरण अंग्रेजी के बड़े अक्षरों (ENGLISH CAPITAL LETTERS) में भरा जाय। (पोर्टल स्वतः अक्षरों को CAPITAL कर देगा)</span>
+            </div>
+            <div class="text-red-700 font-medium text-xs shrink-0">
+                <i class="fa-solid fa-key text-red-600 mr-1"></i> शिक्षक अपने मानव संपदा कोड (EHRMS) एवं मोबाइल नंबर से लॉगिन करें
+            </div>
+        </div>
+    </div>
 
-  function adminLogin() {
-    const u = document.getElementById('adminUser').value.trim();
-    const p = document.getElementById('adminPass').value.trim();
-    if (u === "beobarsathi" && p === "Barsathi@2026") {
-      document.getElementById('loginSection').classList.add('d-none');
-      document.getElementById('adminSection').classList.remove('d-none');
-      loadAllTeachers();
-    } else {
-      alert("गलत एडमिन आईडी या पासवर्ड!");
-    }
-  }
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 py-6">
 
-  async function loadAllTeachers() {
-    const filter = document.getElementById('filterNyay').value;
-    const tbody = document.getElementById('adminTableBody');
-    tbody.innerHTML = "<tr><td colspan='8' class='text-center'>डेटा लोड हो रहा है...</td></tr>";
-    
-    try {
-      const snapshot = await db.ref('teachers').once('value');
-      cachedRecords = [];
-      tbody.innerHTML = "";
-      
-      if (snapshot.exists()) {
-        snapshot.forEach(childSnap => {
-          const d = childSnap.val();
-          if (!filter || d.nyay === filter) {
-            cachedRecords.push(d);
-            const imgHtml = d.photo ? `<img src="${d.photo}" class="photo-thumb">` : "No Photo";
-            tbody.innerHTML += `
-              <tr>
-                <td>${imgHtml}</td>
-                <td><b>${d.ehrms}</b></td>
-                <td>${d.name}</td>
-                <td>${d.post}</td>
-                <td>${d.school}</td>
-                <td>${d.nyay}</td>
-                <td>${d.mobile}</td>
-                <td>
-                  <button class="btn btn-sm btn-warning mb-1" onclick="editRecord('${d.ehrms}')">Edit</button>
-                  <button class="btn btn-sm btn-danger mb-1" onclick="deleteRecord('${d.ehrms}')">Delete</button>
-                  <a class="btn btn-sm btn-success mb-1" target="_blank" href="https://wa.me/91${d.mobile}?text=सूचना%20कार्यालय%20BEO%20बरसठी:%20${encodeURIComponent(d.name)}%20जी,%20आपका%20विवरण%20पोर्टल%20पर%20सत्यापित%20किया%20गया।">WhatsApp</a>
-                </td>
-              </tr>`;
-          }
-        });
-      }
-      document.getElementById('totalCount').innerText = cachedRecords.length;
-    } catch (e) {
-      tbody.innerHTML = "<tr><td colspan='8' class='text-danger text-center'>डेटा लोड नहीं हो सका।</td></tr>";
-    }
-  }
+        <!-- ==================== STEP 1: TEACHER LOGIN GATE (IMAGE 1 STYLE) ==================== -->
+        <section id="teacherLoginSection" class="no-print max-w-lg mx-auto my-6">
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-indigo-950 via-blue-900 to-indigo-950 text-white p-6 text-center border-b-4 border-amber-500">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <i class="fa-solid fa-id-badge text-3xl text-amber-400"></i>
+                    </div>
+                    <span class="inline-block bg-amber-500 text-slate-950 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase mb-1">
+                        शिक्षक प्रमाणीकरण (Teacher Authentication)
+                    </span>
+                    <h2 class="text-xl font-extrabold">शिक्षक लॉगिन (मानव संपदा कोड द्वारा)</h2>
+                    <p class="text-xs text-slate-300 mt-1">
+                        प्रपत्र भरने अथवा पूर्व में भरे गए प्रपत्र को देखने/संशोधित करने के लिए अपना मानव संपदा कोड एवं मोबाइल नंबर दर्ज करें
+                    </p>
+                </div>
 
-  async function editRecord(ehrms) {
-    document.getElementById('adminSection').classList.add('d-none');
-    document.getElementById('tEhrms').value = ehrms;
-    let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
-    const snapshot = await db.ref('teachers/' + safeKey).once('value');
-    if (snapshot.exists()) {
-      document.getElementById('tMobile').value = snapshot.val().mobile || "0000000000";
-      teacherLogin();
-    }
-  }
+                <form id="teacherLoginForm" class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                            1. मानव संपदा कोड (EHRMS CODE) <span class="text-red-600">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-hashtag absolute left-3.5 top-3 text-indigo-600"></i>
+                            <input type="text" id="loginEhrmsInput" required
+                                placeholder="अपना मानव संपदा कोड दर्ज करें (उदा: 458921)"
+                                class="uppercase-input w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-sm font-extrabold text-slate-900 tracking-wider">
+                        </div>
+                    </div>
 
-  async function deleteRecord(ehrms) {
-    if (confirm("क्या आप इस शिक्षक का रिकॉर्ड हटाना चाहते हैं?")) {
-      let safeKey = ehrms.replace(/[.#$\/\[\]]/g, "_");
-      await db.ref('teachers/' + safeKey).remove();
-      loadAllTeachers();
-    }
-  }
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                            2. पंजीकृत मोबाइल नंबर (10-DIGIT MOBILE NUMBER) <span class="text-red-600">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-mobile-screen-button absolute left-3.5 top-3 text-indigo-600"></i>
+                            <input type="tel" id="loginMobileInput" required maxlength="10" pattern="[0-9]{10}"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                                placeholder="10 अंकों का मोबाइल नंबर दर्ज करें"
+                                class="w-full pl-10 pr-4 py-2.5 rounded-xl border-2 border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-sm font-extrabold text-slate-900 tracking-wider">
+                        </div>
+                    </div>
 
-  function exportExcel() {
-    if (cachedRecords.length === 0) { alert("डाउनलोड करने के लिए कोई डेटा नहीं है।"); return; }
-    let csv = "\uFEFFEHRMS Code,Name,Designation,School,Nyaya Panchayat,Mobile,Updated At\n";
-    cachedRecords.forEach(r => {
-      csv += `"${r.ehrms}","${r.name}","${r.post}","${r.school}","${r.nyay}","${r.mobile}","${r.updatedAt || ''}"\n`;
-    });
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "BEO_Barsathi_Teachers_Data.csv";
-    link.click();
-  }
+                    <p id="teacherLoginError" class="hidden text-xs font-bold text-red-600 bg-red-50 border border-red-200 p-2.5 rounded-lg">
+                        <i class="fa-solid fa-circle-exclamation mr-1"></i> कृपया सही मानव संपदा कोड और 10 अंकों का मोबाइल नंबर दर्ज करें।
+                    </p>
 
-  function logout() {
-    location.reload();
-  }
-</script>
-</body>
-</html>
+                    <div class="pt-2">
+                        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-700 to-indigo-800 hover:from-blue-800 hover:to-indigo-900 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-solid fa-right-to-bracket"></i> लॉगिन करें एवं प्रपत्र खोलें
+                        </button>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[11px] text-amber-900 space-y-1">
+                        <p class="font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-amber-600"></i> महत्वपूर्ण सुविधा:
+                        </p>
+                        <p>• पहली बार लॉगिन करने पर नया प्रपत्र खुलेगा जिसमें आपका मानव संपदा कोड व मोबाइल नंबर स्वतः दर्ज रहेगा।</p>
+                        <p>• यदि आप पहले प्रपत्र भर चुके हैं, तो पुनः उसी मानव संपदा कोड और मोबाइल नंबर से लॉगिन करने पर आपका भरा हुआ डेटा स्वतः खुल जाएगा जिसे आप देख या अपडेट कर सकते हैं।</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ==================== STEP 2: TEACHER DATA ENTRY FORM (IMAGE 2 STYLE) ==================== -->
+        <section id="formTab" class="hidden no-print">
+            <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
+                <div class="bg-slate-900 text-white px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-extrabold text-lg shrink-0">
+                            <i class="fa-solid fa-user-check"></i>
+                        </span>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h2 class="text-base sm:text-lg font-bold">शिक्षक विवरण प्रविष्टि प्रपत्र (हाईकोर्ट के आदेश के अनुपालन में)</h2>
+                                <span id="editModeBadge" class="hidden bg-amber-400 text-slate-950 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">
+                                    <i class="fa-solid fa-rotate mr-1"></i> पूर्व सुरक्षित डेटा लोड है (संशोधन मोड)
+                                </span>
+                            </div>
+                            <p class="text-xs text-amber-300 font-semibold mt-0.5">
+                                लॉगिन शिक्षक — मानव संपदा कोड: <span id="bannerEhrms" class="underline font-extrabold">-</span> | मोबाइल: <span id="bannerMobile" class="underline font-extrabold">-</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button type="button" id="btnPrintMyForm" onclick="printLoggedInTeacherForm()" class="hidden px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-print"></i> मेरा प्रपत्र प्रिंट करें
+                        </button>
+                        <button type="button" onclick="logoutTeacher()" class="px-3.5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 shadow">
+                            <i class="fa-solid fa-power-off"></i> शिक्षक लॉगआउट
+                        </button>
+                    </div>
+                </div>
+
+                <form id="teacherForm" class="p-4 sm:p-6 space-y-6">
+                    <input type="hidden" id="editDocId" value="">
+
+                    <!-- Section 1: EHRMS, Mobile, Nyaya Panchayat (All 11) & School -->
+                    <div class="bg-blue-50/60 border border-blue-200 rounded-xl p-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-blue-200">
+                            <h3 class="text-sm font-bold text-blue-950 flex items-center gap-2">
+                                <i class="fa-solid fa-id-card text-blue-700"></i>
+                                <span>भाग 1: मानव संपदा कोड, न्याय पंचायत एवं विद्यालय का विवरण (EHRMS & SCHOOL DETAILS)</span>
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                            <div>
+                                <label class="block text-xs font-extrabold text-indigo-950 mb-1">मानव संपदा कोड (EHRMS) *</label>
+                                <input type="text" id="ehrmsCode" required readonly class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border-2 border-indigo-400 bg-indigo-50/80 text-sm font-extrabold text-indigo-950 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-extrabold text-indigo-950 mb-1">मोबाइल नंबर *</label>
+                                <input type="tel" id="teacherMobile" required readonly maxlength="10" class="w-full px-3.5 py-2.5 rounded-lg border-2 border-indigo-400 bg-indigo-50/80 text-sm font-extrabold text-indigo-950 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">न्याय पंचायत चुनें *</label>
+                                <select id="nyayaPanchayat" required class="w-full px-3.5 py-2.5 rounded-lg border-2 border-blue-400 text-sm font-bold text-slate-900 bg-white">
+                                    <option value="">-- न्याय पंचायत चुनें --</option>
+                                    <option value="पपरावन">1. पपरावन (PAPRAWAN)</option>
+                                    <option value="बरसठी">2. बरसठी (BARSATHI)</option>
+                                    <option value="भन्नौर">3. भन्नौर (BHANNAUR)</option>
+                                    <option value="गोठाव">4. गोठाव (GOTHAW)</option>
+                                    <option value="कांटी">5. कांटी (KANTI)</option>
+                                    <option value="दताव">6. दताव (DATAW)</option>
+                                    <option value="पल्टूपुर">7. पल्टूपुर (PALTUPUR)</option>
+                                    <option value="वाजिदपुर">8. वाजिदपुर (WAJIDPUR)</option>
+                                    <option value="हरद्वारी">9. हरद्वारी (HARDWARI)</option>
+                                    <option value="परियत">10. परियत (PARIYAT)</option>
+                                    <option value="भदराव">11. भदराव (BHADRAW)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">विद्यालय का नाम *</label>
+                                <input type="text" id="schoolName" required placeholder="उदा: P.S. BARSATHI FIRST" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-bold text-slate-900 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">विद्यालय का प्रकार *</label>
+                                <select id="schoolType" required class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                                    <option value="PRIMARY SCHOOL (P.S.)">PRIMARY SCHOOL (प्राथमिक)</option>
+                                    <option value="UPPER PRIMARY SCHOOL (U.P.S.)">UPPER PRIMARY (उच्च प्राथमिक)</option>
+                                    <option value="COMPOSITE SCHOOL (C.S.)">COMPOSITE SCHOOL (कम्पोजिट)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section A: Teacher & Appointment Details -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-4">
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user-tie text-indigo-700"></i>
+                                <span>भाग 2 (Section A): शिक्षक/शिक्षिका का नियुक्ति अभिलेखानुसार विवरण</span>
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">1. शिक्षक/शिक्षिका का नाम *</label>
+                                <input type="text" id="teacherName" required placeholder="उदा: SANJAY KUMAR VERMA" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-bold text-slate-900 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">2. पिता/पति का नाम *</label>
+                                <input type="text" id="fatherHusbandName" required placeholder="उदा: S/O RAMESH CHANDRA VERMA" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">3. नियुक्ति के समय अंतिम शैक्षिक योग्यता *</label>
+                                <input type="text" id="qualification" required placeholder="उदा: B.SC., B.ED., TET" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                            </div>
+                        </div>
+
+                        <!-- Red Highlighted Box for Advt Number & Date -->
+                        <div class="bg-red-50/90 border-2 border-red-500 rounded-xl p-4 shadow-sm">
+                            <div class="flex items-center gap-2 text-red-800 font-bold text-xs mb-3">
+                                <span class="bg-red-600 text-white px-2.5 py-0.5 rounded uppercase flex items-center gap-1">
+                                    <i class="fa-solid fa-star"></i> विशेष ध्यान दें
+                                </span>
+                                <span>प्रथम नियुक्ति विज्ञापन संख्या एवं विज्ञापन तिथि सही-सही अंकित करें</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <label class="block text-xs font-extrabold text-red-950 mb-1">4. प्रथम नियुक्ति विज्ञापन संख्या *</label>
+                                    <input type="text" id="advtNumber" required placeholder="उदा: 69000 / 68500" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border-2 border-red-500 text-sm font-bold text-slate-900 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-extrabold text-red-950 mb-1">5. प्रथम नियुक्ति विज्ञापन तिथि *</label>
+                                    <input type="text" id="advtDate" required placeholder="DD/MM/YYYY" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border-2 border-red-500 text-sm font-bold text-slate-900 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-800 mb-1">6. प्रथम नियुक्ति पत्र तिथि *</label>
+                                    <input type="text" id="apptLetterDate" required placeholder="DD/MM/YYYY" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-800 mb-1">7. मेरिट गुणांक *</label>
+                                    <input type="text" id="meritGunank" required placeholder="उदा: 68.45" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">8. नियुक्ति वर्ग (Category) *</label>
+                                <select id="apptCategory" required class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-bold text-slate-900 bg-white">
+                                    <option value="">-- वर्ग चुनें --</option>
+                                    <option value="GEN / UR">GEN / UR</option>
+                                    <option value="OBC">OBC</option>
+                                    <option value="SC">SC</option>
+                                    <option value="ST">ST</option>
+                                    <option value="GEN / DIVYANG">GEN / DIVYANG</option>
+                                    <option value="OBC / DIVYANG">OBC / DIVYANG</option>
+                                    <option value="SC / DIVYANG">SC / DIVYANG</option>
+                                    <option value="DIVYANG">DIVYANG</option>
+                                    <option value="OTHER">OTHER</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">9. शिक्षा विभाग में नियुक्त निकट संबंधी *</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="relativeDetails" required value="NIL" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                                    <button type="button" onclick="document.getElementById('relativeDetails').value='NIL'" class="px-3 py-2 bg-slate-200 text-slate-800 rounded-lg text-xs font-bold">NIL</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">10. अभ्युक्ति / अन्य (Remarks)</label>
+                                <input type="text" id="remarks" value="NIL" class="uppercase-input w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-900 bg-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section B: Educational Qualification Table (Image 2 style) -->
+                    <div class="bg-amber-50/50 border-2 border-amber-400 rounded-xl p-4 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-amber-300">
+                            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-graduation-cap text-amber-600 text-lg"></i>
+                                <span>भाग 3 (Section B): शैक्षिक एवं प्रशिक्षण योग्यता का विस्तृत विवरण</span>
+                            </h3>
+                        </div>
+
+                        <div class="overflow-x-auto table-scroll">
+                            <table class="w-full border-collapse border-2 border-slate-800 text-xs sm:text-sm bg-white">
+                                <thead>
+                                    <tr class="bg-slate-800 text-white font-bold text-center">
+                                        <th class="border border-slate-600 p-2.5">परीक्षा / उपाधि</th>
+                                        <th class="border border-slate-600 p-2.5">अनुक्रमांक (Roll No)</th>
+                                        <th class="border border-slate-600 p-2.5">उत्तीर्ण वर्ष</th>
+                                        <th class="border border-slate-600 p-2.5">पूर्णांक</th>
+                                        <th class="border border-slate-600 p-2.5">प्राप्तांक</th>
+                                        <th class="border border-slate-600 p-2.5">बोर्ड / विश्वविद्यालय</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-300 font-semibold text-slate-900">
+                                    <tr>
+                                        <td class="border border-slate-800 p-2.5 font-extrabold bg-slate-100 text-center">हाईस्कूल (HIGH SCHOOL)</td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="hsRoll" required placeholder="ROLL NO." class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="hsYear" required placeholder="YYYY" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="hsMax" required placeholder="600" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="hsObt" required placeholder="420" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="hsBoard" required placeholder="UP BOARD" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-slate-800 p-2.5 font-extrabold bg-slate-100 text-center">इण्टरमीडिएट (INTERMEDIATE)</td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="interRoll" required placeholder="ROLL NO." class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="interYear" required placeholder="YYYY" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="interMax" required placeholder="500" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="interObt" required placeholder="360" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="interBoard" required placeholder="UP BOARD" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-slate-800 p-2.5 font-extrabold bg-slate-100 text-center">स्नातक (GRADUATION)</td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="gradRoll" required placeholder="ROLL NO." class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="gradYear" required placeholder="YYYY" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="gradMax" required placeholder="1800" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="gradObt" required placeholder="1120" class="uppercase-input w-full px-2 py-1.5 rounded border border-slate-300 text-xs font-bold text-center"></td>
+                                        <td class="border border-slate-800 p-1.5"><input type="text" id="gradBoard" required placeholder="VBSPU JAUNPUR" class="uppercase-input w-full px-2 py-1.5 rounded
