@@ -211,7 +211,7 @@
                         <p class="font-bold flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-info text-amber-600"></i> महत्वपूर्ण सुविधा:
                         </p>
-                        <p>• आप लॉगिन करके या सीधे प्रपत्र खोलकर अंदर भी अपना **मानव संपदा कोड (EHRMS Code)** भर व संशोधित कर सकते हैं।</p>
+                        <p>• आप लॉगिन करके या सीधे प्रपत्र खोलकर अंदर भी अपना <strong>मानव संपदा कोड (EHRMS Code)</strong> भर व संशोधित कर सकते हैं।</p>
                         <p>• यदि आप पहले प्रपत्र भर चुके हैं, तो पुनः उसी मानव संपदा कोड से लॉगिन करने पर आपका भरा हुआ डेटा स्वतः खुल जाएगा जिसे आप अपडेट कर सकते हैं।</p>
                     </div>
                 </form>
@@ -337,7 +337,7 @@
                         </div>
                     </div>
 
-                    <!-- Section A: Teacher & Appointment Details (Also includes synced EHRMS field) -->
+                    <!-- Section A: Teacher & Appointment Details -->
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-4">
                         <div class="flex items-center justify-between pb-2 border-b border-slate-200">
                             <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -347,7 +347,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <!-- Col 0: Manav Sampada Code inside Section A as well -->
+                            <!-- Synced EHRMS field inside Section A -->
                             <div>
                                 <label class="block text-xs font-extrabold text-indigo-900 mb-1">
                                     मानव संपदा कोड (EHRMS CODE) <span class="text-red-600">*</span>
@@ -672,7 +672,7 @@
             </div>
         </section>
 
-        <!-- ==================== BEO ADMIN LOGIN CARD ==================== -->
+        <!-- ==================== BEO ADMIN LOGIN CARD (NO PASSWORD HINTS SHOWN) ==================== -->
         <section id="beoLoginSection" class="hidden no-print max-w-md mx-auto my-8">
             <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
                 <div class="bg-gradient-to-r from-blue-950 to-indigo-900 text-white p-6 text-center border-b-4 border-amber-500">
@@ -698,7 +698,7 @@
                             </button>
                         </div>
                         <p id="loginErrorMsg" class="hidden text-xs font-bold text-red-600 mt-2">
-                            <i class="fa-solid fa-circle-exclamation mr-1"></i> गलत पासवर्ड! कृपया सही एडमिन पासवर्ड (Pankhuri26) दर्ज करें।
+                            <i class="fa-solid fa-circle-exclamation mr-1"></i> गलत पासवर्ड! कृपया सही एडमिन पासवर्ड दर्ज करें।
                         </p>
                     </div>
 
@@ -1026,7 +1026,6 @@
             }
         } catch (e) {}
 
-        // Keep both EHRMS inputs (Part 1 & Part 2) synced when teacher types inside form
         function syncEhrmsFields(val) {
             var cleanVal = (val || '').toUpperCase();
             var f1 = document.getElementById('ehrmsCode');
@@ -1037,7 +1036,6 @@
             document.getElementById('footerEhrmsNote').textContent = cleanVal || '-';
         }
 
-        // Open Blank Form Directly so Teacher can fill EHRMS inside the form
         function openDirectBlankForm() {
             loggedInTeacher = { ehrmsCode: '', mobile: '', recordId: null };
             prepareBlankFormForTeacher('', '');
@@ -1317,17 +1315,24 @@
             }
         }
 
+        // BEO Admin Login (Encoded verification - Never reveals password on screen or in plain text)
         function handleBeoLogin(e) {
             if (e) e.preventDefault();
             var enteredPass = document.getElementById('beoPasswordInput').value.trim();
-            if (enteredPass.toLowerCase() === 'pankhuri26' || enteredPass === 'Barsathi@2026') {
+            var encodedInput = '';
+            try {
+                encodedInput = btoa(enteredPass.toLowerCase());
+            } catch (err) {
+                encodedInput = '';
+            }
+            if (encodedInput === 'cGFua2h1cmkyNg==' || encodedInput === 'YmFyc2F0aGlAMjAyNg==') {
                 isBeoAuthenticated = true;
                 document.getElementById('loginErrorMsg').classList.add('hidden');
                 showToast("BEO एडमिन पैनल में सफलतापूर्वक लॉगिन हो गया!");
                 switchTab('reportTab');
             } else {
                 document.getElementById('loginErrorMsg').classList.remove('hidden');
-                showToast("गलत पासवर्ड! कृपया Pankhuri26 दर्ज करें।", true);
+                showToast("गलत पासवर्ड! केवल अधिकृत एडमिन ही लॉगिन कर सकते हैं।", true);
             }
             return false;
         }
