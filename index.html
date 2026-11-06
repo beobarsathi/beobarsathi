@@ -441,6 +441,7 @@
                             </div>
                         </div>
 
+                        <!-- Recruitment Type & Category Row -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- भर्ती का प्रकार (33 श्रेणियां) -->
                             <div>
@@ -633,7 +634,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
                         <div class="text-xs text-slate-600 font-medium">
                             <i class="fa-solid fa-shield-check text-emerald-600 mr-1"></i>
-                            डेटा मानव संपदा कोड (<strong id="footerEhrmsNote">-</strong>) के साथ सुरक्षित होगा।
+                            आपका डेटा आपके मानव संपदा कोड (<strong id="footerEhrmsNote">-</strong>) के साथ सुरक्षित किया जाएगा।
                         </div>
 
                         <div class="flex flex-wrap items-center gap-3">
@@ -740,6 +741,7 @@
 
             <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-6 print-container">
                 
+                <!-- Filter & Action Toolbar (No Print) -->
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 mb-5 border-b border-slate-200 no-print">
                     <div>
                         <div class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1">
@@ -749,6 +751,7 @@
                             <i class="fa-solid fa-table text-blue-700"></i>
                             <span>संकलित शिक्षक सूचना पंजिका (विकास खंड - बरसठी, जौनपुर)</span>
                         </h2>
+                        <p class="text-xs text-slate-500">सभी शिक्षकों द्वारा मानव संपदा कोड सहित भरा गया नियुक्ति एवं शैक्षिक डेटा — Excel में डाउनलोड या प्रिंट करें</p>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2.5">
@@ -761,119 +764,226 @@
                     </div>
                 </div>
 
-                <!-- Filters -->
+                <!-- Search & Nyaya Panchayat / School Filter Bar (No Print) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200 no-print">
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">न्याय पंचायत फिल्टर</label>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">न्याय पंचायत के अनुसार फिल्टर करें</label>
                         <select id="filterNP" onchange="renderTable()" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-bold bg-white text-slate-900">
-                            <option value="ALL">-- सभी 11 न्याय पंचायत --</option>
-                            <option value="पपरावन">पपरावन</option>
-                            <option value="बरसठी">बरसठी</option>
-                            <option value="भन्नौर">भन्नौर</option>
-                            <option value="गोठाव">गोठाव</option>
-                            <option value="कांटी">कांटी</option>
-                            <option value="दताव">दताव</option>
-                            <option value="पल्टूपुर">पल्टूपुर</option>
-                            <option value="वाजिदपुर">वाजिदपुर</option>
-                            <option value="हरद्वारी">हरद्वारी</option>
-                            <option value="परियत">परियत</option>
-                            <option value="भदराव">भदराव</option>
+                            <option value="ALL">-- सभी 11 न्याय पंचायत (ALL) --</option>
+                            <option value="पपरावन">1. पपरावन (PAPRAWAN)</option>
+                            <option value="बरसठी">2. बरसठी (BARSATHI)</option>
+                            <option value="भन्नौर">3. भन्नौर (BHANNAUR)</option>
+                            <option value="गोठाव">4. गोठाव (GOTHAW)</option>
+                            <option value="कांटी">5. कांटी (KANTI)</option>
+                            <option value="दताव">6. दताव (DATAW)</option>
+                            <option value="पल्टूपुर">7. पल्टूपुर (PALTUPUR)</option>
+                            <option value="वाजिदपुर">8. वाजिदपुर (WAJIDPUR)</option>
+                            <option value="हरद्वारी">9. हरद्वारी (HARDWARI)</option>
+                            <option value="परियत">10. परियत (PARIYAT)</option>
+                            <option value="भदराव">11. भदराव (BHADRAW)</option>
                         </select>
                     </div>
+
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">विद्यालय फिल्टर</label>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">विद्यालय के अनुसार फिल्टर करें</label>
                         <select id="filterSchool" onchange="renderTable()" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold bg-white">
-                            <option value="ALL">-- समस्त विद्यालय --</option>
+                            <option value="ALL">-- समस्त विद्यालय (ALL SCHOOLS) --</option>
                         </select>
                     </div>
+
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">वर्ग फिल्टर</label>
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">नियुक्ति वर्ग के अनुसार</label>
                         <select id="filterCategory" onchange="renderTable()" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold bg-white">
-                            <option value="ALL">-- सभी वर्ग --</option>
+                            <option value="ALL">-- सभी वर्ग (ALL CATEGORIES) --</option>
                             <option value="GEN">GEN / UR</option>
                             <option value="OBC">OBC</option>
                             <option value="SC">SC</option>
                             <option value="ST">ST</option>
+                            <option value="DIVYANG">DIVYANG (समस्त दिव्यांग)</option>
+                            <option value="OTHER">OTHER</option>
                         </select>
                     </div>
+
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">EHRMS / नाम खोजें</label>
-                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="खोजें..." class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold bg-white">
+                        <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">EHRMS कोड / नाम / मोबाइल / विद्यालय खोजें</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                            <input type="text" id="searchInput" oninput="renderTable()"
+                                placeholder="मानव संपदा कोड, नाम या मोबाइल..."
+                                class="w-full pl-8 pr-3 py-2 rounded-lg border border-slate-300 text-xs font-semibold bg-white">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Table Header -->
+                <!-- ==================== OFFICIAL FORMAT HEADER ==================== -->
                 <div class="border-2 border-slate-800 p-4 rounded-lg bg-white">
                     <div class="text-center mb-3">
                         <p class="text-xs font-bold text-slate-700 uppercase tracking-wider">कार्यालय खंड शिक्षा अधिकारी, विकास खंड - बरसठी, जनपद - जौनपुर (उ०प्र०)</p>
-                        <h3 class="text-lg font-extrabold text-black underline decoration-2 underline-offset-4 mt-0.5">
+                        <h3 class="text-lg sm:text-xl font-extrabold text-black underline decoration-2 underline-offset-4 mt-0.5">
                             हाईकोर्ट के आदेश के अनुपालन में सूचना
                         </h3>
                     </div>
 
+                    <div class="flex flex-wrap justify-between items-center text-xs sm:text-sm font-bold text-black mb-2 pb-1 border-b border-slate-400">
+                        <div>
+                            <span>विद्यालय का नाम— </span>
+                            <span id="printSchoolNameDisplay" class="underline font-extrabold">समस्त विद्यालय (विकास खंड - बरसठी, जौनपुर)</span>
+                        </div>
+                        <div id="printNPDisplay" class="text-xs font-bold">
+                            न्याय पंचायत: समस्त | विकास खंड: BARSATHI, JAUNPUR
+                        </div>
+                    </div>
+
+                    <!-- Official Table -->
                     <div class="overflow-x-auto table-scroll">
                         <table class="official-table w-full border-collapse border border-slate-800 text-xs">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-900 font-bold text-center">
-                                    <th class="border border-slate-800 p-2">क्रम सं०</th>
-                                    <th class="border border-slate-800 p-2">मानव संपदा कोड (EHRMS)</th>
-                                    <th class="border border-slate-800 p-2">न्याय पंचायत</th>
-                                    <th class="border border-slate-800 p-2">विद्यालय का नाम</th>
-                                    <th class="border border-slate-800 p-2">शिक्षक का नाम एवं मोबाइल</th>
-                                    <th class="border border-slate-800 p-2">पिता/पति का नाम</th>
-                                    <th class="border border-slate-800 p-2">योग्यता</th>
-                                    <th class="border border-slate-800 p-2">विज्ञापन सं० व तिथि</th>
-                                    <th class="border border-slate-800 p-2">नियुक्ति तिथि</th>
-                                    <th class="border border-slate-800 p-2">गुणांक</th>
-                                    <th class="border border-slate-800 p-2">भर्ती का प्रकार</th>
-                                    <th class="border border-slate-800 p-2">वर्ग</th>
-                                    <th class="border border-slate-800 p-2 no-print">कार्यवाही</th>
+                                    <th class="border border-slate-800 p-2 w-10">क्रम सं०</th>
+                                    <th class="border border-slate-800 p-2 min-w-[95px]">मानव संपदा कोड (EHRMS)</th>
+                                    <th class="border border-slate-800 p-2 min-w-[90px]">न्याय पंचायत</th>
+                                    <th class="border border-slate-800 p-2 min-w-[125px]">विद्यालय का नाम</th>
+                                    <th class="border border-slate-800 p-2 min-w-[135px]">शिक्षक/शिक्षिका का नाम एवं मोबाइल</th>
+                                    <th class="border border-slate-800 p-2 min-w-[130px]">नियुक्ति अभिलेख के अनुसार पिता/पति का नाम</th>
+                                    <th class="border border-slate-800 p-2 min-w-[110px]">नियुक्ति के समय अंतिम शैक्षिक योग्यता</th>
+                                    <th class="border border-slate-800 p-2 min-w-[100px] bg-red-50 text-red-950">प्रथम नियुक्ति विज्ञापन संख्या</th>
+                                    <th class="border border-slate-800 p-2 min-w-[90px] bg-red-50 text-red-950">प्रथम नियुक्ति विज्ञापन तिथि</th>
+                                    <th class="border border-slate-800 p-2 min-w-[90px]">प्रथम नियुक्ति पत्र तिथि</th>
+                                    <th class="border border-slate-800 p-2 min-w-[80px]">मेरिट गुणांक</th>
+                                    <th class="border border-slate-800 p-2 min-w-[110px]">भर्ती का प्रकार</th>
+                                    <th class="border border-slate-800 p-2 min-w-[90px]">वर्ग</th>
+                                    <th class="border border-slate-800 p-2 min-w-[100px]">निकट संबंधी</th>
+                                    <th class="border border-slate-800 p-2 min-w-[75px]">अभ्युक्ति</th>
+                                    <th class="border border-slate-800 p-2 min-w-[140px] no-print">शैक्षिक विवरण / कार्यवाही</th>
                                 </tr>
                             </thead>
-                            <tbody id="recordsTableBody">
-                                <tr><td colspan="13" class="text-center py-8 text-slate-500">डेटा लोड हो रहा है...</td></tr>
+                            <tbody id="recordsTableBody" class="divide-y divide-slate-400">
+                                <tr>
+                                    <td colspan="16" class="text-center py-8 text-slate-500 font-medium">
+                                        डेटा लोड हो रहा है...
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Official Footer Note & Signature Block -->
+                    <div class="mt-6 pt-3 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 text-xs font-bold text-black">
+                        <div>
+                            <p>नोट—समस्त विवरण अंग्रेजी के बड़े अक्षरों में भरा जाय।</p>
+                            <p class="text-[11px] font-normal text-slate-600 mt-1 no-print">
+                                पोर्टल पर अंकित समय: <span id="currentDateTimeDisplay"></span>
+                            </p>
+                        </div>
+                        <div class="text-right pr-6 space-y-4">
+                            <p>हस्ताक्षर एवं मुहर प्र०अ० ...........................................</p>
+                            <p>नाम प्र०अ० ..............................................................</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <!-- Modals & Toast -->
-    <div id="eduDetailModal" class="fixed inset-0 bg-slate-900/70 hidden items-center justify-center z-50 p-3 no-print">
-        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300 p-5">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h3 class="text-base font-extrabold text-amber-600">शैक्षिक एवं नियुक्ति विवरण</h3>
-                <button type="button" onclick="closeEduModal()" class="cursor-pointer px-3 py-1 bg-slate-800 text-white rounded">बंद करें</button>
+    <!-- ==================== MODAL: VIEW / PRINT TEACHER FULL EDUCATIONAL DETAILS ==================== -->
+    <div id="eduDetailModal" class="fixed inset-0 bg-slate-900/70 hidden items-center justify-center z-50 p-3 sm:p-6 no-print">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-300">
+            <div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between sticky top-0 z-10">
+                <div>
+                    <h3 class="text-base sm:text-lg font-extrabold text-amber-400">शिक्षक का सम्पूर्ण नियुक्ति एवं शैक्षिक विवरण</h3>
+                    <p class="text-xs text-slate-300">कार्यालय खंड शिक्षा अधिकारी, बरसठी, जौनपुर</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="printSingleTeacherRecord()" class="cursor-pointer px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i> यह प्रपत्र प्रिंट करें
+                    </button>
+                    <button type="button" onclick="closeEduModal()" class="cursor-pointer w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
             </div>
-            <div id="modalTeacherInfoGrid" class="grid grid-cols-2 gap-2 text-xs mb-4 bg-slate-50 p-3 rounded"></div>
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse border text-xs text-center">
-                    <thead><tr class="bg-slate-200"><th>परीक्षा</th><th>अनुक्रमांक</th><th>वर्ष</th><th>पूर्णांक</th><th>प्राप्तांक</th><th>बोर्ड</th></tr></thead>
-                    <tbody id="modalEduTableBody"></tbody>
-                </table>
+
+            <div id="singleTeacherPrintArea" class="p-5 sm:p-6 space-y-5 text-slate-900">
+                <div class="text-center border-b-2 border-slate-800 pb-3">
+                    <p class="text-xs font-bold uppercase">कार्यालय खंड शिक्षा अधिकारी, विकास खंड - बरसठी, जनपद - जौनपुर</p>
+                    <h2 class="text-lg font-extrabold underline mt-0.5">हाईकोर्ट के आदेश के अनुपालन में शिक्षक सूचना एवं शैक्षिक विवरण</h2>
+                </div>
+
+                <div id="modalTeacherInfoGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-300 text-xs"></div>
+
+                <div>
+                    <h4 class="text-xs sm:text-sm font-extrabold text-slate-900 mb-2 uppercase">
+                        शैक्षिक एवं प्रशिक्षण योग्यता विवरण तालिका:
+                    </h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border-2 border-slate-900 text-xs text-center">
+                            <thead>
+                                <tr class="bg-slate-200 font-extrabold text-slate-900">
+                                    <th class="border border-slate-900 p-2">परीक्षा / उपाधि</th>
+                                    <th class="border border-slate-900 p-2">अनुक्रमांक</th>
+                                    <th class="border border-slate-900 p-2">उत्तीर्ण वर्ष</th>
+                                    <th class="border border-slate-900 p-2">पूर्णांक</th>
+                                    <th class="border border-slate-900 p-2">प्राप्तांक</th>
+                                    <th class="border border-slate-900 p-2">बोर्ड / विश्वविद्यालय / संस्था</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalEduTableBody" class="font-semibold"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pt-6 flex justify-between items-end text-xs font-bold">
+                    <div>दिनांक: .................................</div>
+                    <div class="text-right">
+                        <p>हस्ताक्षर शिक्षक / शिक्षिका ...........................................</p>
+                        <p class="mt-4">हस्ताक्षर एवं मुहर प्र०अ० ...........................................</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Custom Delete Confirmation Modal -->
     <div id="deleteModal" class="fixed inset-0 bg-slate-900/60 hidden items-center justify-center z-50 p-4 no-print">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-            <h3 class="text-lg font-bold text-slate-900 mb-3">प्रविष्टि हटाने की पुष्टि करें</h3>
-            <p class="text-sm text-slate-600 mb-5">क्या आप <span id="deleteTeacherName" class="font-bold"></span> का रिकॉर्ड हटाना चाहते हैं?</p>
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+            <div class="flex items-center gap-3 text-red-600 mb-3">
+                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">प्रविष्टि हटाने की पुष्टि करें</h3>
+            </div>
+            <p class="text-sm text-slate-600 mb-5">
+                क्या आप निश्चित रूप से शिक्षक <span id="deleteTeacherName" class="font-bold text-slate-900"></span> का विवरण पोर्टल से हटाना चाहते हैं?
+            </p>
             <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeDeleteModal()" class="cursor-pointer px-4 py-2 border rounded text-xs">रद्द करें</button>
-                <button type="button" onclick="confirmDeleteRecord()" class="cursor-pointer px-4 py-2 bg-red-600 text-white rounded text-xs">हाँ, हटाएं</button>
+                <button type="button" onclick="closeDeleteModal()" class="cursor-pointer px-4 py-2 rounded-lg border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-100">
+                    रद्द करें
+                </button>
+                <button type="button" onclick="confirmDeleteRecord()" class="cursor-pointer px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs">
+                    हाँ, हटाएं (Delete)
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Toast Notification -->
     <div id="toastBox" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border-l-4 border-amber-400 flex items-center gap-3 no-print">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <div class="text-xs sm:text-sm font-medium" id="toastMessage">सफल!</div>
+        <div class="text-xs sm:text-sm font-medium" id="toastMessage">सूचना सुरक्षित हो गई!</div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-4 px-4 mt-8 no-print border-t border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p class="font-semibold text-slate-300">
+                © कार्यालय खंड शिक्षा अधिकारी, विकास खंड - बरसठी, जनपद - जौनपुर (उ०प्र०)
+            </p>
+            <p>हाईकोर्ट के आदेश के अनुपालन में ऑनलाइन शिक्षक सूचना संकलन प्रणाली</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Realtime Database SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -883,7 +993,7 @@
         var pendingDeleteId = null;
         var isBeoAuthenticated = false;
         var loggedInTeacher = null;
-        var LOCAL_STORAGE_KEY = 'beo_barsathi_hc_records_v2';
+        var LOCAL_STORAGE_KEY = 'beo_barsathi_hc_records_v3';
 
         try {
             var savedLocal = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -1123,7 +1233,6 @@
             var encodedInput = '';
             try { encodedInput = btoa(enteredPass); } catch (err) {}
 
-            // Encoded values for Pankhuri26 or pankhuri26
             if (encodedInput === 'UGFua2h1cmkyNg==' || encodedInput === 'cGFua2h1cmkyNg==' || enteredPass === 'Barsathi@2026') {
                 isBeoAuthenticated = true;
                 document.getElementById('loginErrorMsg').classList.add('hidden');
